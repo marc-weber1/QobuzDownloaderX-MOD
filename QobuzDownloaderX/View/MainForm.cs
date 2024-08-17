@@ -73,7 +73,7 @@ namespace QobuzDownloaderX
                 output.Invoke(new Action(() => output.AppendText("Periodicity - " + Globals.Login.User.Subscription.Periodicity + "\r\n")));
                 output.Invoke(new Action(() => output.AppendText("==========================\r\n\r\n")));
             }
-            else if (Globals.Login.User.Credential.Parameters.Source == "household" && Globals.Login.User.Credential.Parameters.HiresStreaming == true)
+            else if (Globals.Login.User?.Credential?.Parameters?.Source == "household" && Globals.Login.User.Credential.Parameters?.HiresStreaming == true)
             {
                 output.Invoke(new Action(() => output.AppendText("Active Family sub-account, unknown End Date \r\n")));
                 output.Invoke(new Action(() => output.AppendText("Credential Label - " + Globals.Login.User.Credential.Label + "\r\n")));
