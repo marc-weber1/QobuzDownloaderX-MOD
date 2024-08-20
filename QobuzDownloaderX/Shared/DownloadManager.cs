@@ -126,7 +126,7 @@ namespace QobuzDownloaderX.Shared
 
         public async Task DownloadFileAsync(HttpClient httpClient, string downloadUrl, string filePath)
         {
-            using (Stream streamToReadFrom = await httpClient.GetStreamAsync(downloadUrl))
+            using (Stream streamToReadFrom = await httpClient.GetStreamAsync(downloadUrl).ConfigureAwait(false))
             {
                 using (FileStream streamToWriteTo = System.IO.File.Create(filePath))
                 {
@@ -241,7 +241,7 @@ namespace QobuzDownloaderX.Shared
                     httpClient.DefaultRequestHeaders.Add("User-Agent", Globals.USER_AGENT);
 
                     // Save streamed file from link
-                    await DownloadFileAsync(httpClient, streamUrl, DownloadPaths.FullTrackFilePath);
+                    await DownloadFileAsync(httpClient, streamUrl, DownloadPaths.FullTrackFilePath).ConfigureAwait(false);
 
                     // Download selected cover art size for tagging files (if not exists)
                     if (!System.IO.File.Exists(coverArtTagFilePath))
@@ -576,7 +576,7 @@ namespace QobuzDownloaderX.Shared
                     switch (downloadItem.Type)
                     {
                         case "track":
-                            await StartDownloadTrackTaskAsync(cancellationTokenSource.Token);
+                            await StartDownloadTrackTaskAsync(cancellationTokenSource.Token).ConfigureAwait(false);
                             break;
                         case "album":
                             await StartDownloadAlbumTaskAsync(cancellationTokenSource.Token);
@@ -658,7 +658,7 @@ namespace QobuzDownloaderX.Shared
                 logger.AddDownloadLogLine($"Track \"{qobuzTrack.Title}\" found. Starting Download...", true, true);
                 logger.AddEmptyDownloadLogLine(true, true);
 
-                bool fileDownloaded = await DownloadTrackAsync(cancellationToken, qobuzTrack, downloadBasePath, true, false, true);
+                bool fileDownloaded = await DownloadTrackAsync(cancellationToken, qobuzTrack, downloadBasePath, true, false, true).ConfigureAwait(false);
 
                 // If download failed, abort
                 if (!fileDownloaded) { return; }
